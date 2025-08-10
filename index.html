@@ -1,31 +1,44 @@
-<!DOCTYPE html><html lang="ar">
+<!DOCTYPE html>
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
 <title>شمسين - تطبيق حساب الطاقة الشمسية</title>
 <style>
-body { font-family: Arial, sans-serif; direction: rtl; text-align: right; margin: 20px; }
+body { font-family: Arial, sans-serif; direction: rtl; text-align: right; margin: 20px; background-color: #f9f9f9; }
+h1 { color: #ff9800; }
 label, select, input, button { margin: 5px 0; display: block; }
-#results, #components, #info { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+button { background-color: #ff9800; color: white; border: none; padding: 8px 12px; cursor: pointer; }
+button:hover { background-color: #e68900; }
+#results, #components, #info { margin-top: 20px; padding: 10px; border: 1px solid #ccc; background: white; border-radius: 5px; }
 </style>
 </head>
 <body>
 <h1>شمسين ☀️</h1>
-<p>اختر أجهزتك الكهربائية واحسب مكونات النظام الشمسي المناسبة</p><label for="device">اختر الجهاز:</label> <select id="device">
+<p>اختر أجهزتك الكهربائية واحسب مكونات النظام الشمسي المناسبة</p>
 
+<label for="device">اختر الجهاز:</label>
+<select id="device">
   <option value="100">مروحة (100W)</option>
   <option value="150">ثلاجة (150W)</option>
   <option value="200">تلفاز (200W)</option>
   <option value="250">مكيف نسمة 6000 وحدة (250W)</option>
   <option value="20">إنارة داخلية (20W)</option>
-</select><label for="quantity">العدد:</label> <input type="number" id="quantity" value="1" min="1">
+</select>
 
-<label for="hours">عدد ساعات التشغيل يومياً:</label> <input type="number" id="hours" value="1" min="1">
+<label for="quantity">العدد:</label>
+<input type="number" id="quantity" value="1" min="1">
 
-<button onclick="addDevice()">إضافة الجهاز</button> <button onclick="calculate()">حاسب الآن</button>
+<label for="hours">عدد ساعات التشغيل يومياً:</label>
+<input type="number" id="hours" value="1" min="1">
+
+<button onclick="addDevice()">إضافة الجهاز</button>
+<button onclick="calculate()">حاسب الآن</button>
 
 <div id="results"></div>
 <div id="components"></div>
-<div id="info"></div><script>
+<div id="info"></div>
+
+<script>
 let devices = [];
 
 function addDevice() {
@@ -67,5 +80,6 @@ function calculate() {
     <p><strong>التوصيل على التوازي:</strong> يتم ربط الموجب بالموجب والسالب بالسالب لزيادة السعة (الأمبير) مع بقاء الفولت نفسه. مثال: بطاريتان 12V و100Ah على التوازي تعطي 12V و200Ah.</p>
     <p><strong>الفرق بين الفولت والأمبير والوات:</strong> الفولت (V) هو فرق الجهد، الأمبير (A) هو شدة التيار، والوات (W) هو القدرة ويحسب بالمعادلة: القدرة = الفولت × الأمبير. مثال: جهاز يستهلك 12V و2A قدرته 24W.</p>`;
 }
-</script></body>
-                                                                                                            </html>
+</script>
+</body>
+  </html>
