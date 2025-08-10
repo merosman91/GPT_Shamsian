@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>شمسين - تطبيق حساب الطاقة الشمسية</title>
+<style>
+body { font-family: Arial, sans-serif; direction: rtl; text-align: right; margin: 20px; }
+label, select, input, button { margin: 5px 0; display: block; }
+#results, #components, #info { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<h1>شمسين ☀️</h1>
+<p>اختر أجهزتك الكهربائية واحسب مكونات النظام الشمسي المناسبة</p><label for="device">اختر الجهاز:</label> <select id="device">
+
+  <option value="100">مروحة (100W)</option>
+  <option value="150">ثلاجة (150W)</option>
+  <option value="200">تلفاز (200W)</option>
+  <option value="250">مكيف نسمة 6000 وحدة (250W)</option>
+  <option value="20">إنارة داخلية (20W)</option>
+</select><label for="quantity">العدد:</label> <input type="number" id="quantity" value="1" min="1">
+
+<label for="hours">عدد ساعات التشغيل يومياً:</label> <input type="number" id="hours" value="1" min="1">
+
+<button onclick="addDevice()">إضافة الجهاز</button> <button onclick="calculate()">حاسب الآن</button>
+
+<div id="results"></div>
+<div id="components"></div>
+<div id="info"></div><script>
+let devices = [];
+
+function addDevice() {
+  const devicePower = parseFloat(document.getElementById('device').value);
+  const quantity = parseInt(document.getElementById('quantity').value);
+  const hours = parseFloat(document.getElementById('hours').value);
+
+  devices.push({ power: devicePower, qty: quantity, hrs: hours });
+  alert('تمت إضافة الجهاز للقائمة');
+}
+
+function calculate() {
+  let totalWh = 0;
+  devices.forEach(d => {
+    totalWh += d.power * d.qty * d.hrs;
+  });
+  const totalKWh = totalWh / 1000;
+  document.getElementById('results').innerHTML = `<h3>الاستهلاك اليومي:</h3>
+    <p>${totalWh} وات-ساعة (${totalKWh.toFixed(2)} كيلووات-ساعة)</p>`;
+
+  const peakSunHours = 5; // ساعات الشمس الفعالة
+  const panelWatt = 400; // قدرة اللوح الواحد
+  const panelsNeeded = Math.ceil(totalWh / (panelWatt * peakSunHours));
+
+  const batteryVoltage = 12; // فولت
+  const batteryAhNeeded = Math.ceil((totalWh / batteryVoltage) * 1.2); // مع هامش أمان 20%
+
+  document.getElementById('components').innerHTML = `<h3>مكونات النظام المقترحة:</h3>
+    <ul>
+      <li>عدد الألواح: ${panelsNeeded} لوح (${panelWatt}W لكل لوح)</li>
+      <li>البطاريات: ${batteryAhNeeded} أمبير-ساعة (${batteryVoltage}V)</li>
+      <li>الإنفرتر: ${Math.ceil(totalWh / 1000)} كيلووات</li>
+      <li>منظم الشحن المناسب: MPPT بقدرة ${panelWatt * panelsNeeded}W</li>
+      <li>التوصيلات: أسلاك نحاسية مناسبة بقدرة تحمل ≥ ${Math.ceil(totalWh / batteryVoltage)} أمبير، مع فيوز وحمايات</li>
+    </ul>`;
+
+  document.getElementById('info').innerHTML = `<h3>معلومات هامة:</h3>
+    <p><strong>التوصيل على التوالي:</strong> يتم ربط الموجب بالسالب بين البطاريات لزيادة الفولتية مع بقاء الأمبير نفسه. مثال: بطاريتان 12V و 100Ah على التوالي تعطي 24V و100Ah.</p>
+    <p><strong>التوصيل على التوازي:</strong> يتم ربط الموجب بالموجب والسالب بالسالب لزيادة السعة (الأمبير) مع بقاء الفولت نفسه. مثال: بطاريتان 12V و100Ah على التوازي تعطي 12V و200Ah.</p>
+    <p><strong>الفرق بين الفولت والأمبير والوات:</strong> الفولت (V) هو فرق الجهد، الأمبير (A) هو شدة التيار، والوات (W) هو القدرة ويحسب بالمعادلة: القدرة = الفولت × الأمبير. مثال: جهاز يستهلك 12V و2A قدرته 24W.</p>`;
+}
+</script></body>
+                                                                                                            </html>
